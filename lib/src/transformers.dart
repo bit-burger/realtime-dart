@@ -109,9 +109,11 @@ dynamic convertColumn(
   final columnValue = record[columnName];
   final columnValueStr = columnValue == null
       ? null
-      : columnValue is String
+      : columnValue is Map<String, dynamic> ?
+        jsonEncode(columnValue)
+        : (columnValue is String
           ? columnValue
-          : columnValue.toString();
+          : columnValue.toString());
 
   if (column != null && !skipTypes.contains(column.type)) {
     return convertCell(column.type, columnValueStr);
